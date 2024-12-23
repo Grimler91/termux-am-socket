@@ -69,12 +69,7 @@ bool is_number(const std::string& s) {
 }
 
 
-int main(int argc, char* argv[]) {
-    if (argc > 2) {
-        std::cerr << "termux-am-socket only expects 1 argument and received " << argc - 1 << std::endl;
-        return 1;
-    }
-
+int send_to_socket(char* data) {
     struct sockaddr_un adr = {.sun_family = AF_UNIX};
     if (strlen(SOCKET_PATH) >= sizeof(adr.sun_path)) {
         std::cerr << "Socket path \"" << SOCKET_PATH << "\" too long" << std::endl;
@@ -94,9 +89,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if (argc == 2) {
-        send_blocking(fd, argv[1], strlen(argv[1]));
-    } 
+    send_blocking(fd, data, strlen(data));
 
     shutdown(fd, SHUT_WR);
 

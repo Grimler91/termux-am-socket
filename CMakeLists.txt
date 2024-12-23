@@ -18,9 +18,13 @@ configure_file(
   termux-am @ONLY
 )
 
-add_executable(termux-am-socket termux-am.cpp)
+add_library(termux-am STATIC termux-am.cpp)
+
+add_executable(termux-am-socket main.cpp)
+target_link_libraries(termux-am-socket termux-am-socket-static)
 target_include_directories(termux-am-socket PUBLIC ${CMAKE_BINARY_DIR})
 
 
 install(FILES ${CMAKE_BINARY_DIR}/termux-am TYPE BIN PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
 install(TARGETS termux-am-socket DESTINATION bin PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
+install(TARGETS termux-am-socket-static DESTINATION lib)

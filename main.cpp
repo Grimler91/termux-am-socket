@@ -15,6 +15,17 @@
  *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-int send_to_socket(char*);
+#include <iostream>
 
-#define SOCKET_PATH "@TERMUX_APPS_DIR@/@TERMUX_APP_PACKAGE@/termux-am/am.sock"
+#include "termux-am.h"
+
+int main(int argc, char* argv[]) {
+    int rc;
+    if (argc != 2) {
+        std::cerr << "termux-am-socket only expects 1 argument and received " << argc - 1 << std::endl;
+        return 1;
+    }
+
+    rc = send_to_socket(argv[1]);
+    return rc;
+}
